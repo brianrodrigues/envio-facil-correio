@@ -1,0 +1,55 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(329.54deg, #0a0909 0%, #17161a 100%);
+}
+.container .footer {
+  position: absolute;
+  bottom: 4px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.container .footer img {
+  width: 15px;
+  height: 10px;
+}
+.container .footer p {
+  font-size: 12px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.containerLogin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60%;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.85);
+
+  -webkit-box-shadow: 10px 10px 10px -4px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 10px 10px 10px -4px rgba(0, 0, 0, 0.4);
+  box-shadow: 10px 10px 10px -4px rgba(0, 0, 0, 0.4);
+}
+.container .containerLogin .containerForm {
+  width: 80%;
+}
+.container .containerLogin .containerLogo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: -150px;
+  margin-bottom: 30px;
+  
+}
+.container .containerLogin .containerLogo img {
+  width: 140px;
+}

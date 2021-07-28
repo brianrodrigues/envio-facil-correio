@@ -1,0 +1,37 @@
+.container{
+  margin: 10px 15px;
+}
+
+.containerInput {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 3px solid #f4f808ee;
+}
+.containerInput img {
+  width: 24px;
+  height: 24px;
+  margin: 4px;
+  color: #9a25fa;
+}
+.containerInput input {
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  padding: 8px;
+  color: antiquewhite;
+  font-family: "Roboto";
+  font-weight: 400;
+}
+.containerInput input:focus {
+  outline: none;
+  background-color: transparent;
+}
+
+.label{
+  margin-left: 5px;
+  font-size: 1rem;
+  color: rgb(218, 218, 218);
+}

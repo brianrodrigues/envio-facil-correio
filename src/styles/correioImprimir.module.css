@@ -1,0 +1,117 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  
+  width: 100vw;
+}
+.topBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(329.54deg, #3a6cf7 0%, #0818ad 100%);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+.containerTopBar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 70%;
+}
+.declaracao, .etiqueta {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+  width: 90%;
+  max-width: 1000px;
+  position: relative;
+
+  margin: 15px;
+  border-radius: 16px;
+}
+.etiqueta {
+  font-size: 1.3rem;
+}
+.etiqueta .headerEtiqueta{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.headerEtiqueta img{
+  margin: 10px;
+}
+.headerDeclaracao,.headerEtiqueta {
+  display: flex;
+  height: 100px;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+.headerDeclaracao h2 ,.headerEtiqueta h2{
+  font-size: 2rem;
+  margin-top: 10px;
+  color: rgb(48, 48, 48);
+}
+.containerDadosPessoais {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  color: rgb(39, 39, 39);
+}
+.dadosRemetente {
+  width: 100%;
+}
+.dadosDestinatario {
+  width: 100%;
+}
+.containerProduct {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  text-align: center;
+  margin-top: 5px;
+}
+.containerProduct table {
+  width: 100%;
+  color: #101010;
+  font-size: 0.9rem;
+}
+table,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th {
+  font-weight: bolder;
+}
+
+.containerDeclaracao{
+    display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  text-align: center;
+  margin-top: 5px;
+}
+.containerDeclaracao p{
+   font-size: 0.75rem;
+   text-align: start;
+   color: #101010;
+   margin: 5px;
+}
+

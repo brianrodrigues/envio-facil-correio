@@ -1,0 +1,12 @@
+.containerCheckbox {
+  display: flex;
+  margin: 10px;
+  align-items: center;
+}
+.containerCheckbox input {
+  margin-right: 10px;
+}
+.containerCheckbox label {
+  color: rgb(206, 206, 206);
+  font-size: 16px;
+}

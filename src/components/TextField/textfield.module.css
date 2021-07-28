@@ -1,0 +1,23 @@
+.container{
+    display: flex;
+    width: 100%;
+    border-bottom: 1px solid #101010;
+    border-right: 1px solid #101010;
+    border-left: 1px solid #101010; 
+    padding-left: 3px;
+    
+}
+.borderHide{
+    display: flex;
+    width: 100%;
+    padding-left: 3px;
+}
+.container p{
+    font-size: 0.9rem;
+    color: rgb(34, 34, 34);
+}
+.fontTitle{
+    font-weight: bolder;
+    margin-right: 5px;
+  
+}
