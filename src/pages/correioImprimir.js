@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { withRouter } from "react-router";
 import style from "../styles/correioImprimir.module.css";
 import Button from "../components/ButtonSolid";
@@ -8,14 +8,16 @@ import iconPrint from "../assets/printing.png";
 import math from "../scripts/calculations";
 import { Context } from "../router/Auth";
 
+import JsBarcode from "jsbarcode";
+
 import "../global.css";
 
 const CorreioImprimir = () => {
-  const { remetente, destinatario, produtos, sumTotal } = useContext(Context);
+  const { remetente, destinatario, produtos,sumTotal } = useContext(Context);
 
   const [docPrint, setDocPrint] = useState("");
   const [hideTopBar, setHideTopBar] = useState(false);
-
+  
   const mes = [
     "Janeiro",
     "Fevereiro",
@@ -30,7 +32,12 @@ const CorreioImprimir = () => {
     "Novembro",
     "Dezembro",
   ];
+
   const data = new Date();
+
+  useEffect(() => {
+    JsBarcode("#barcode", destinatario.Cep);
+  },[]);
 
   const print = (event) => {
     setDocPrint(event);
@@ -41,6 +48,7 @@ const CorreioImprimir = () => {
     setTimeout(() => {
       setDocPrint("");
       setHideTopBar(false);
+      JsBarcode("#barcode", destinatario.Cep);
     }, 1000);
   };
 
@@ -308,22 +316,33 @@ const CorreioImprimir = () => {
       ) : null}
       {docPrint === "etiqueta" || docPrint === "" ? (
         <div className={style.etiqueta}>
-          <div className={style.headerEtiqueta} style={{border:"1px solid #101010"}}>
+          <div
+            className={style.headerEtiqueta}
+            style={{ border: "1px solid #101010" }}
+          >
             <img
-              height={50}
+              style={{ width: "35%" }}
               src={remetente.Logo ? remetente.Logo : LogoCorreio}
             ></img>
-            <div className={style.dadosRemetente} style={{padding:"5px"}}>
+            <div className={style.dadosRemetente} style={{ padding: "5px" }}>
               <TextField
                 styleContainer={{ border: "none" }}
                 title="Remetente"
                 value={remetente.Nome}
               />
+               <div style={{ display: "flex" }}>
               <TextField
                 styleContainer={{ border: "none" }}
                 title="CPF/CNPJ"
                 value={remetente.CpfCnpj}
               />
+              {remetente.Ie ? 
+              <TextField
+                styleContainer={{ width: "45%",border: "none" }}
+                title="IE"
+                value={remetente.Ie}
+              />:null}
+              </div>
               <TextField
                 styleContainer={{ border: "none" }}
                 title="Endereço"
@@ -336,41 +355,90 @@ const CorreioImprimir = () => {
                   value={remetente.Cidade + " / " + remetente.Estado}
                 />
                 <TextField
-                  styleContainer={{ width: "45%",border: "none" }}
+                  styleContainer={{ width: "45%", border: "none" }}
                   title="CEP"
                   value={remetente.Cep}
                 />
               </div>
+              {remetente.Tel ?
+              <TextField
+                styleContainer={{ border: "none" }}
+                title="Telefone"
+                value={remetente.Tel}
+              />:null}
+              {remetente.Site ? 
+              <TextField
+                styleContainer={{ border: "none" }}
+                title="Site"
+                value={remetente.Site}
+              />:null}
             </div>
-            
           </div>
+          
           <div className={style.containerDadosPessoais}>
-            
             <div
-              className={style.dadosDestinatario}
+              className={style.dadosDestinatarioEtiqueta}
               style={{ "margin-top": "5px" }}
             >
-              <h4>Destinatário:</h4>
+              <div className={style.titleBlack}>
+              <h4 >Destinatário</h4>
+              <h4>{data.getDate()} de {mes[data.getMonth()]} de {data.getFullYear()}</h4>
+              </div>
+              
               <TextField
-                styleContainer={{ "border-top": "1px solid #101010" }}
+                styleContainer={{ border: "none" }}
                 title="Nome"
                 value={destinatario.Nome}
               />
-              <TextField title="CPF/CNPJ" value={destinatario.CpfCnpj} />
               <TextField
+                styleContainer={{ border: "none" }}
+                title="CPF/CNPJ"
+                value={destinatario.CpfCnpj}
+              />
+              <TextField
+                styleContainer={{ border: "none" }}
                 title="Endereço"
-                value={destinatario.Logradouro + ", " + destinatario.Numero+", "+destinatario.Bairro}
+                value={
+                  destinatario.Logradouro +
+                  ", " +
+                  destinatario.Numero +
+                  ", " +
+                  destinatario.Bairro
+                }
               />
               <div style={{ display: "flex" }}>
                 <TextField
+                  styleContainer={{ border: "none" }}
                   title="Cidade/UF"
                   value={destinatario.Cidade + " / " + destinatario.Estado}
                 />
                 <TextField
-                  styleContainer={{ width: "40%" }}
+                  styleContainer={{ border: "none" }}
                   title="CEP"
                   value={destinatario.Cep}
                 />
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginTop: "15px",
+                }}
+              >
+                <div style={{ width: "50%" }}>
+                  <img id="barcode"></img>
+                </div>
+
+                <div
+                  style={{
+                    width: "75%",
+                    border: "1px solid #000",
+                    padding: "5px",
+                  }}
+                >
+                  <h5 className={style.titleBlack}>Observações</h5>
+                  <p style={{color:"#000",fontSize:"1rem"}}>{destinatario.Obs}</p>
+                </div>
               </div>
             </div>
           </div>

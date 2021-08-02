@@ -3,13 +3,14 @@ import { withRouter } from "react-router";
 import style from "../styles/correio.module.css";
 import InputField from "../components/InputField";
 import Button from "../components/ButtonSolid";
-import LoadSave from "../components/loadSave";
+
 import logo from "../assets/envio-facil-correio.png";
 import iconArrow from "../assets/arrow.png";
 import mask from "../scripts/mask";
 import math from "../scripts/calculations";
 import { Context } from "../router/Auth";
 
+import Textarea from "../components/textArea";
 import "../global.css";
 
 const Correio = ({ history }) => {
@@ -19,6 +20,7 @@ const Correio = ({ history }) => {
     setProviderDestinatario,
     setProviderProdutos,
     setSumTotal,
+    sumTotal,
   } = useContext(Context);
 
   const [produtos, setProdutos] = useState([]);
@@ -27,9 +29,17 @@ const Correio = ({ history }) => {
       ? {}
       : JSON.parse(localStorage.getItem("remetente"))
   );
-  const [save, setSave] = useState(false);
+
   const [destinatario, setDestinatario] = useState({});
   const [status, setStatus] = useState("Produtos");
+  const [btnMais, setBtnMais] = useState(
+    remetente.Ie != null ||
+      remetente.Site != null ||
+      remetente.Tel != null ||
+      remetente.Logo != null
+      ? true
+      : false
+  );
 
   const setProduct = (event) => {
     event.preventDefault();
@@ -50,7 +60,7 @@ const Correio = ({ history }) => {
           },
         ]);
 
-        setSumTotal((array) => [...array, total]);
+        setSumTotal([...sumTotal, total]);
       } else {
         alert("Maximo 15 produtos");
       }
@@ -82,6 +92,9 @@ const Correio = ({ history }) => {
 
     const {
       logo,
+      ie,
+      site,
+      tel,
       checkbox,
       nome,
       cpfcnpj,
@@ -101,8 +114,11 @@ const Correio = ({ history }) => {
       Cep: cep.value,
       Cidade: cidade.value,
       Estado: estado.value,
-      Logo: logo.value,
       Bairro: bairro.value,
+      Logo: btnMais ? logo.value : null,
+      Ie: btnMais ? ie.value : null,
+      Site: btnMais ? site.value : null,
+      Tel: btnMais ? tel.value : null,
     });
 
     if (checkbox.checked) {
@@ -112,8 +128,17 @@ const Correio = ({ history }) => {
   const setRecipient = (event) => {
     event.preventDefault();
 
-    const { bairro, nome, cpfcnpj, logradouro, numero, cep, cidade, estado } =
-      event.target.elements;
+    const {
+      obs,
+      bairro,
+      nome,
+      cpfcnpj,
+      logradouro,
+      numero,
+      cep,
+      cidade,
+      estado,
+    } = event.target.elements;
 
     setDestinatario({
       Nome: nome.value,
@@ -124,6 +149,7 @@ const Correio = ({ history }) => {
       Cidade: cidade.value,
       Estado: estado.value,
       Bairro: bairro.value,
+      Obs: obs.value,
     });
   };
   const next = (event) => {
@@ -164,7 +190,9 @@ const Correio = ({ history }) => {
     }
   };
 
-  
+  useEffect(() => {
+    setSumTotal([]);
+  }, []);
 
   return (
     <div className={style.background}>
@@ -271,7 +299,7 @@ const Correio = ({ history }) => {
               <div className={style.grid}>
                 <InputField
                   required={true}
-                  label="Nome"
+                  label="Nome:"
                   name="nome"
                   type="text"
                   placeholder="ex: João da Silva"
@@ -280,7 +308,7 @@ const Correio = ({ history }) => {
                 <InputField
                   required={true}
                   keyUp={mask.CpfCnpj}
-                  label="CPF/CNPJ"
+                  label="CPF/CNPJ:"
                   name="cpfcnpj"
                   type="text"
                   placeholder="ex: 000.000.000-00"
@@ -317,7 +345,7 @@ const Correio = ({ history }) => {
                 <InputField
                   required={true}
                   keyUp={mask.Cep}
-                  label="CEP"
+                  label="CEP:"
                   name="cep"
                   type="text"
                   placeholder="ex: 13920-000"
@@ -327,7 +355,7 @@ const Correio = ({ history }) => {
               <div className={style.grid}>
                 <InputField
                   required={true}
-                  label="Cidade"
+                  label="Cidade:"
                   name="cidade"
                   type="text"
                   placeholder="ex: Pedreira"
@@ -336,23 +364,66 @@ const Correio = ({ history }) => {
                 <InputField
                   required={true}
                   keyUp={mask.Estado}
-                  label="Estado (Sigla)"
+                  label="Estado (Sigla):"
                   name="estado"
                   type="text"
                   placeholder="ex: SP"
                   styleContainer={{ width: "50%", "margin-left": "5px" }}
                 ></InputField>
               </div>
-              <InputField
-                required={false}
-                label="link da sua Logo (Opcional)"
-                name="logo"
-                type="text"
-                placeholder="ex: https://seusite.com.br/logo.png"
-              ></InputField>
-              <div className={style.containerCheckbox}>
-                <input type="checkbox" name="checkbox"></input>
-                <h4>Lembre-me</h4>
+              {btnMais ? (
+                <div>
+                  <InputField
+                    required={false}
+                    label="Inscrição Estadual (Opcional):"
+                    keyUp={mask.Ie}
+                    name="ie"
+                    type="text"
+                    placeholder="ex: 000.000.000.000"
+                  ></InputField>
+                  <InputField
+                    required={false}
+                    label="Site (Opcional):"
+                    name="site"
+                    type="text"
+                    placeholder="ex: www.seusite.com.br"
+                  ></InputField>
+                  <InputField
+                    required={false}
+                    label="Telefone (Opcional):"
+                    keyUp={mask.Tel}
+                    name="tel"
+                    type="text"
+                    placeholder="ex: (00) 0 0000-0000"
+                  ></InputField>
+                  <InputField
+                    required={false}
+                    label="Logotipo (Opcional):"
+                    name="logo"
+                    type="text"
+                    placeholder="ex: https://seusite.com.br/logo.png"
+                  ></InputField>
+                </div>
+              ) : null}
+
+              <div className={style.containerFooter}>
+                <div className={style.containerCheckbox}>
+                  <input type="checkbox" name="checkbox"></input>
+                  <h4>Lembre-me</h4>
+                </div>
+                <Button
+                  style={{
+                    "font-size": "14px",
+                    width: "15%",
+                    margin: "5px",
+                    color: "#fff",
+                    background: "transparent",
+                  }}
+                  hasIcon={false}
+                  title={btnMais ? "menos" : "mais"}
+                  type="button"
+                  click={() => setBtnMais(!btnMais)}
+                ></Button>
               </div>
               <div className={style.button}>
                 <Button
@@ -395,7 +466,6 @@ const Correio = ({ history }) => {
                     type="button"
                   ></Button>
                 ) : null}
-                {save ? <LoadSave></LoadSave> : null}
               </div>
             </form>
           </div>
@@ -420,6 +490,35 @@ const Correio = ({ history }) => {
               <div className={style.box}>Cidade: {remetente.Cidade}</div>
               <div className={style.box}>Estado: {remetente.Estado}</div>
             </div>
+            {btnMais ? (
+              <>
+                <div className={style.containerBox}>
+                  <div className={style.box}>IE: {remetente.Ie}</div>
+                  <div className={style.box}>TEL: {remetente.Tel}</div>
+                </div>
+                <div className={style.containerBox}>
+                  <div className={style.box}>Site: {remetente.Site}</div>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <div
+                    style={{
+                      marginRight: "10px",
+                      fontFamily: "Roboto",
+                      fontWeight: "normal",
+                    }}
+                  >
+                    Miniatura da logo:
+                  </div>
+                  <img height={40} src={remetente.Logo}></img>
+                </div>
+              </>
+            ) : null}
           </div>
         </div>
       ) : null}
@@ -430,7 +529,7 @@ const Correio = ({ history }) => {
               <div className={style.grid}>
                 <InputField
                   required={true}
-                  label="Nome"
+                  label="Nome:"
                   name="nome"
                   type="text"
                   placeholder="ex: João da Silva"
@@ -439,7 +538,7 @@ const Correio = ({ history }) => {
                 <InputField
                   required={true}
                   keyUp={mask.CpfCnpj}
-                  label="CPF/CNPJ"
+                  label="CPF/CNPJ:"
                   name="cpfcnpj"
                   type="text"
                   placeholder="ex: 000.000.000-00"
@@ -476,7 +575,7 @@ const Correio = ({ history }) => {
                 <InputField
                   required={true}
                   keyUp={mask.Cep}
-                  label="CEP"
+                  label="CEP:"
                   name="cep"
                   type="text"
                   placeholder="ex: 13920-000"
@@ -486,7 +585,7 @@ const Correio = ({ history }) => {
               <div className={style.grid}>
                 <InputField
                   required={true}
-                  label="Cidade"
+                  label="Cidade:"
                   name="cidade"
                   type="text"
                   placeholder="ex: Pedreira"
@@ -495,14 +594,14 @@ const Correio = ({ history }) => {
                 <InputField
                   required={true}
                   keyUp={mask.Estado}
-                  label="Estado (Sigla)"
+                  label="Estado (Sigla):"
                   name="estado"
                   type="text"
                   placeholder="ex: SP"
                   styleContainer={{ width: "50%", "margin-left": "5px" }}
                 ></InputField>
               </div>
-
+              <Textarea label="Observações (Opcional):" name="obs"></Textarea>
               <div className={style.button}>
                 <Button
                   style={{
@@ -569,6 +668,9 @@ const Correio = ({ history }) => {
             <div className={style.containerBox}>
               <div className={style.box}>Cidade: {destinatario.Cidade}</div>
               <div className={style.box}>Estado: {destinatario.Estado}</div>
+            </div>
+            <div className={style.containerBox}>
+              <div className={style.box}>Observações: {destinatario.Obs}</div>
             </div>
           </div>
         </div>

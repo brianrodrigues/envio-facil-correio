@@ -96,3 +96,11 @@
 .containerCheckbox h4{
   margin-left: 10px;
 }
+
+.containerFooter{
+display: flex;
+justify-content: space-between;
+align-items: center;
+width: 100%;
+
+}

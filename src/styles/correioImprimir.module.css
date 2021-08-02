@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  
+  background-color: #fff;
   width: 100vw;
 }
 .topBar {
@@ -45,9 +45,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 130px;
 }
 .headerEtiqueta img{
   margin: 10px;
+  max-height: 80px;
 }
 .headerDeclaracao,.headerEtiqueta {
   display: flex;
@@ -74,6 +76,23 @@
 }
 .dadosDestinatario {
   width: 100%;
+}
+.dadosDestinatarioEtiqueta{
+  width: 100%;
+  border: 1px solid #000;
+  padding: 5px;
+}
+.titleBlack{
+  
+  background-color: #000;
+  color: #fff;
+  padding: 1px 5px;
+  display: flex;
+  justify-content: space-between;
+  height: 30px;
+}
+.dadosDestinatarioEtiqueta h4{
+  margin-bottom: 10px;
 }
 .containerProduct {
   display: flex;
@@ -113,5 +132,11 @@ th {
    text-align: start;
    color: #101010;
    margin: 5px;
+}
+@media print {
+  body{
+    background-color: #fff;
+  }
+  
 }
 
