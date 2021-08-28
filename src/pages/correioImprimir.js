@@ -145,7 +145,7 @@ const CorreioImprimir = () => {
                   ", " +
                   destinatario.Numero +
                   ", " +
-                  remetente.Bairro
+                  destinatario.Bairro
                 }
               />
               <div style={{ display: "flex" }}>
